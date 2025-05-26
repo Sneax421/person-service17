@@ -5,16 +5,22 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public interface PersonRepository extends JpaRepository<Person, Integer> {
 
-    Stream<Person> findPersonsByNameIgnoreCase(String name);
+//    List<Person> findPersonsByNameIgnoreCase(String name);
+//
+//    List<Person> findPersonsByAddress_CityIgnoreCase(String city);
 
-    Stream<Person> findPersonsByAddress_CityIgnoreCase(String city);
 
+    Set<Person> findByNameIgnoreCase(String name);
 
+    Set<Person> findByAddressCityIgnoreCase(String city);
 
+    Set<Person> findByBirthDateBetween(LocalDate from, LocalDate to);
 
 }
