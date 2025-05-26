@@ -1,6 +1,6 @@
 package ait.cohort55.person.service;
 
-import ait.cohort55.configuration.ServiceConfiguration;
+
 import ait.cohort55.person.dao.PersonRepository;
 import ait.cohort55.person.dto.AddressDto;
 import ait.cohort55.person.dto.CityPopulationDto;
@@ -94,6 +94,6 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Iterable<CityPopulationDto> getCitiesPopulation() {
-        return null;
+        return personRepository.getCitiesPopulation();
     }
 }

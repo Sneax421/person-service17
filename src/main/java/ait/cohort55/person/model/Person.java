@@ -23,6 +23,6 @@ public class Person implements Serializable {
     private String name;
     private LocalDate birthDate;
     @Setter
-    @Embedded
+//    @Embedded
     private Address address;
 }
