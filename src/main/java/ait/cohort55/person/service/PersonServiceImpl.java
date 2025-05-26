@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -98,6 +100,24 @@ public class PersonServiceImpl implements PersonService, CommandLineRunner {
     @Override
     public Iterable<CityPopulationDto> getCitiesPopulation() {
         return personRepository.getCitiesPopulation();
+    }
+
+    @Override
+    public List<ChildDto> findAllChildren() {
+        return personRepository.findAll().stream()
+                .filter(person -> person instanceof Child )
+                .map(person -> (ChildDto) mapper.mapToDto(person))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EmployeeDto> findAllEmployeesBySalary(Integer minSalary, Integer maxSalary) {
+        return personRepository.findAll().stream()
+                .filter(p -> p instanceof Employee)
+                .map(p -> (Employee) p)
+                .filter(e -> e.getSalary() >= minSalary && e.getSalary() <= maxSalary)
+                .map(e -> (EmployeeDto) mapper.mapToDto(e))
+                .collect(Collectors.toList());
     }
 
     @Override
