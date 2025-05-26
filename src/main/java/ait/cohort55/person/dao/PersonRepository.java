@@ -17,10 +17,10 @@ public interface PersonRepository extends JpaRepository<Person, Integer> {
 //    List<Person> findPersonsByAddress_CityIgnoreCase(String city);
 
 
-    Set<Person> findByNameIgnoreCase(String name);
+    Stream<Person> findByNameIgnoreCase(String name);
 
-    Set<Person> findByAddressCityIgnoreCase(String city);
+    Stream<Person> findByAddressCityIgnoreCase(String city);
 
-    Set<Person> findByBirthDateBetween(LocalDate from, LocalDate to);
+    Stream<Person> findByBirthDateBetween(LocalDate from, LocalDate to);
 
 }

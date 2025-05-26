@@ -41,6 +41,7 @@ public class PersonServiceImpl implements PersonService {
         return modelMapper.map(person, PersonDto.class);
     }
 
+    @Transactional
     @Override
     public PersonDto deletePersonById(Integer id) {
         Person person = personRepository.findById(id).orElseThrow(NotFoundException::new);
@@ -53,40 +54,40 @@ public class PersonServiceImpl implements PersonService {
     public PersonDto updatePersonName(Integer id, String name) {
         Person person = personRepository.findById(id).orElseThrow(NotFoundException::new);
         person.setName(name);
-        personRepository.save(person);
+//        personRepository.save(person); // braucht man nicht wenn man @Transaction hat,
         return modelMapper.map(person, PersonDto.class);
     }
 
+    @Transactional
     @Override
     public PersonDto updatePersonAddress(Integer id, AddressDto addressDto) {
         Person person = personRepository.findById(id).orElseThrow(NotFoundException::new);
         person.setAddress(modelMapper.map(addressDto, Address.class));
-        personRepository.save(person);
         return modelMapper.map(person, PersonDto.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public PersonDto[] findPersonsByName(String name) {
         return personRepository.findByNameIgnoreCase(name)
-                .stream()
                 .map(p -> modelMapper.map(p, PersonDto.class))
                 .toArray(PersonDto[]::new);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public PersonDto[] findPersonsByCity(String city) {
         return personRepository.findByAddressCityIgnoreCase(city)
-                .stream()
                 .map(p -> modelMapper.map(p, PersonDto.class))
                 .toArray(PersonDto[]::new);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public PersonDto[] findPersonsBetweenAge(Integer minAge, Integer maxAge) {
         LocalDate from = LocalDate.now().minusYears(maxAge);
         LocalDate to = LocalDate.now().minusYears(minAge);
         return personRepository.findByBirthDateBetween(from, to)
-                .stream()
                 .map(p -> modelMapper.map(p, PersonDto.class))
                 .toArray(PersonDto[]::new);
     }
